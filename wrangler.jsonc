@@ -1,0 +1,29 @@
+// nz-fif: static assets + one tiny Worker route (/api/price). Workers Free plan only.
+// AUDIT: this file must keep exactly one `main`, no storage/analytics bindings,
+// observability and logpush off. tests/config.test.ts enforces this.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nz-fif",
+  "main": "worker/price.ts",
+  "compatibility_date": "2026-10-01",
+  // Free hosting on <name>.<account>.workers.dev until a custom domain exists
+  // (PLAN §12.1). Preview URLs stay off so no second hostname serves the app.
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "dist",
+    // Only /api/price ever reaches the Worker; every other path is a static asset.
+    "run_worker_first": ["/api/price"],
+    "not_found_handling": "none"
+  },
+  // No Workers Logs, no traces, no Logpush, no tail consumers.
+  "observability": { "enabled": false },
+  "logpush": false,
+  "upload_source_maps": false,
+  "send_metrics": false,
+  "vars": {
+    // Kill switch: "yahoo" (default) or "off" (every lookup returns 503; the UI
+    // falls back to manual entry).
+    "PRICE_SOURCE": "yahoo"
+  }
+}

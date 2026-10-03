@@ -1,0 +1,35 @@
+nz-fif
+Copyright 2026 nz-fif contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+NOT TAX ADVICE
+--------------
+nz-fif is a calculation aid for New Zealand's foreign investment fund (FIF)
+rules. It is not tax, legal or financial advice. It does not decide whether you
+are a New Zealand tax resident, whether an interest is an attributing interest
+in a FIF, whether an exemption (for example s EX 31 for ASX-listed Australian
+companies) applies, whether you may use the fair dividend rate (FDR) or
+comparative value (CV) method, or what you must file. Check every figure
+against Inland Revenue guidance (IR461, IR3G) and a qualified New Zealand tax
+adviser before using it in a return. The software is provided "AS IS", without
+warranties or conditions of any kind (see sections 7 and 8 of the licence).
+
+Third-party data bundled with this software
+-------------------------------------------
+- Reserve Bank of New Zealand, "Daily exchange rates and TWI - B1"
+  (https://www.rbnz.govt.nz/statistics/series/exchange-and-interest-rates/exchange-rates-and-the-trade-weighted-index).
+  Source: Reserve Bank of New Zealand, Reuters, NZFMA. "You are free to copy,
+  distribute and adapt these statistics subject to the conditions listed on our
+  copyright page." Snapshot details are in packages/core/data/README.md.
+
+Third-party data fetched at run time (only when price lookup is on)
+-------------------------------------------------------------------
+- Yahoo Finance chart data, via the /api/price route. Unofficial endpoint;
+  prices are shown to the user for review and can be overridden. Not affiliated
+  with or endorsed by Yahoo.
+
+Third-party software
+--------------------
+See package.json for runtime dependencies (Preact - MIT; decimal.js - MIT;
+PapaParse - MIT; SheetJS Community Edition - Apache-2.0) and their licences.

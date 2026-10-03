@@ -1,0 +1,12 @@
+{
+  "comment": "Every capability hit in dist/ must be listed here with a reason. Keep maxCount tight. File globs match chunk names without the content hash.",
+  "rules": [
+    {
+      "pattern": "externalUrl",
+      "file": "assets/*.js",
+      "match": "http://www.w3.org",
+      "maxCount": 12,
+      "why": "XML namespace identifiers (SVG, XLink, XHTML, MathML) used by Preact's DOM renderer and SheetJS's XML writer. Identifiers only, never requested."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+dist-worker/
+.wrangler/
+coverage/
+playwright-report/
+test-results/
+*.log
+.DS_Store
+.dev.vars
+.env
+.env.*
+# Real data and golden checks never leave this folder
+private/
+build-manifest.json

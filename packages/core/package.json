@@ -1,0 +1,14 @@
+{
+  "name": "@nz-fif/core",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "decimal.js": "10.6.0"
+  }
+}

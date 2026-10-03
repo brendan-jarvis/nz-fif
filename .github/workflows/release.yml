@@ -1,0 +1,46 @@
+# Tagged releases only. Builds reproducibly, writes and attests the build
+# manifest, deploys exactly that output, then verifies the live site.
+# Requires repo secrets CLOUDFLARE_API_TOKEN (Workers Scripts:Edit only) and
+# CLOUDFLARE_ACCOUNT_ID, and repo variable SITE_ORIGIN (https://<host>).
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Reproducible build
+        run: |
+          export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+          pnpm check
+          pnpm manifest
+        env:
+          SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: build-manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-manifest
+          path: build-manifest.json
+      - name: Deploy exactly this dist/
+        run: pnpm exec wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+      - name: Verify live site against the manifest
+        run: pnpm verify-deploy "${{ vars.SITE_ORIGIN }}" build-manifest.json
