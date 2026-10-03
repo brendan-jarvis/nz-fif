@@ -34,6 +34,18 @@ pnpm golden            # private real-data checks (needs files in private/; neve
 
 `wrangler dev` runs locally in workerd and needs no Cloudflare login.
 
+## Opening holdings without a full-history export
+
+Load a CSV with columns `Symbol, Market, Quantity, As at` (optional `Name, Currency, Cost NZD`), e.g.
+
+```csv
+Symbol,Market,Name,Quantity,Currency,Cost NZD,As at
+ACME,NASDAQ,Acme Robotics Inc,10.25,USD,1450.00,2025-03-31
+```
+
+Each row becomes an opening balance on the "As at" date (use 31 March before the income year). `Cost NZD` is used only for the
+NZ$50,000 cost test. Do not also load a full-history All Trades export for the same holdings.
+
 ## Repository layout
 
 | Path | What |

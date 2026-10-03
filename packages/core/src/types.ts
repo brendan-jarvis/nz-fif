@@ -55,7 +55,7 @@ export interface Txn {
   flags: string[];
 }
 
-export type FileKind = 'sharesies' | 'hatch' | 'alltrades' | 'unknown';
+export type FileKind = 'sharesies' | 'hatch' | 'alltrades' | 'opening' | 'unknown';
 
 export interface ParseResult {
   kind: FileKind;

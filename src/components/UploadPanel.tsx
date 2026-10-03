@@ -6,6 +6,7 @@ const KIND_LABEL: Record<string, string> = {
   sharesies: 'Sharesies transactions',
   hatch: 'Hatch transactions',
   alltrades: 'Sharesight All Trades',
+  opening: 'Opening holdings',
   unknown: 'Not recognised',
 };
 
