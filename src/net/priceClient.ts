@@ -8,8 +8,8 @@ export const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export interface PriceSplit {
   date: string;
-  numerator: number;
-  denominator: number;
+  /** e.g. "2:1" (units after : units before). */
+  ratio: string;
 }
 
 export interface PriceResult {
@@ -23,6 +23,7 @@ export interface PriceResult {
   /** close x product of split ratios after tradingDate. FIF uses this. */
   rawClose: number;
   splitsAfter: PriceSplit[];
+  currencyNote?: string;
   source: string;
 }
 

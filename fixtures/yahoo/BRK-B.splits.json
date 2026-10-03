@@ -1,0 +1,38 @@
+{
+ "chart": {
+  "result": [
+   {
+    "meta": {
+     "currency": "USD",
+     "symbol": "BRK-B",
+     "exchangeName": "NYQ",
+     "fullExchangeName": "NYQ",
+     "instrumentType": "EQUITY",
+     "firstTradeDate": 946857600,
+     "regularMarketTime": 1790000000,
+     "hasPrePostMarketData": false,
+     "gmtoffset": 0,
+     "timezone": "UTC",
+     "exchangeTimezoneName": "America/New_York",
+     "regularMarketPrice": 404.4,
+     "priceHint": 2,
+     "dataGranularity": "3mo",
+     "range": ""
+    },
+    "timestamp": [
+     1774011600
+    ],
+    "indicators": {
+     "quote": [
+      {
+       "close": [
+        404.4
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "error": null
+ }
+}

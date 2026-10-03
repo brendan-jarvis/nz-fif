@@ -105,3 +105,9 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 
 ## 2026-10-04 – De minimis cost uses trade NZD values under the chosen FX mode
 - **Decision:** running FIFO cost of FIF-classed holdings, converted like other trades (RBNZ on the trade date, or Sharesight values in match mode), checked at each day's end; a trade whose cost can't be determined marks the test incomplete.
+
+## 2026-10-04 – Price Worker: two small upstream calls, no Stooq fallback yet
+- **Decision:** `/api/price` makes (on a cache miss) one daily-bars call for date−10…date+2 and one coarse (3-month) call from the date to today with `events=split`, instead of one daily call from the date to now. Both URLs are day-stable and use `cf.cacheTtl` so Cloudflare's edge cache also absorbs repeats. Answers (including "not found", for 1 h) go into `caches.default` under `https://cache.internal/v1/<SYMBOL>/<DATE>` for 7 days, plus a 500-entry in-isolate memo. A per-isolate budget of 60 upstream subrequests/minute returns 429 + `Retry-After: 60` and the UI falls back to manual entry. `PRICE_SOURCE=off` is the kill switch (503).
+- **Why:** a single call to "now" for an old date returns years of daily bars (large JSON → CPU and bandwidth against the 10 ms Free-plan limit). Two tiny calls stay well inside 50 subrequests and 10 ms.
+- **Not done:** Stooq fallback (needs an API key kept as a secret and has unclear terms); the `PriceSource` seam is the `lookup()` function. Manual entry is always available.
+- **Confirm:** whether a fallback source is wanted before launch.

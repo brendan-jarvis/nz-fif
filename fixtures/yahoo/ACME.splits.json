@@ -1,0 +1,38 @@
+{
+ "chart": {
+  "result": [
+   {
+    "meta": {
+     "currency": "USD",
+     "symbol": "ACME",
+     "exchangeName": "NMS",
+     "fullExchangeName": "NMS",
+     "instrumentType": "EQUITY",
+     "firstTradeDate": 946857600,
+     "regularMarketTime": 1790000000,
+     "hasPrePostMarketData": false,
+     "gmtoffset": 0,
+     "timezone": "UTC",
+     "exchangeTimezoneName": "America/New_York",
+     "regularMarketPrice": 101.25,
+     "priceHint": 2,
+     "dataGranularity": "3mo",
+     "range": ""
+    },
+    "timestamp": [
+     1744117200
+    ],
+    "indicators": {
+     "quote": [
+      {
+       "close": [
+        101.25
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "error": null
+ }
+}

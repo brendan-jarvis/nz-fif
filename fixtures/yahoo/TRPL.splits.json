@@ -1,0 +1,48 @@
+{
+ "chart": {
+  "result": [
+   {
+    "meta": {
+     "currency": "USD",
+     "symbol": "TRPL",
+     "exchangeName": "NGM",
+     "fullExchangeName": "NGM",
+     "instrumentType": "EQUITY",
+     "firstTradeDate": 946857600,
+     "regularMarketTime": 1790000000,
+     "hasPrePostMarketData": false,
+     "gmtoffset": 0,
+     "timezone": "UTC",
+     "exchangeTimezoneName": "America/New_York",
+     "regularMarketPrice": 31.5,
+     "priceHint": 2,
+     "dataGranularity": "3mo",
+     "range": ""
+    },
+    "timestamp": [
+     1742389200
+    ],
+    "events": {
+     "splits": {
+      "1763989200": {
+       "date": 1763989200,
+       "numerator": 2,
+       "denominator": 1,
+       "splitRatio": "2:1"
+      }
+     }
+    },
+    "indicators": {
+     "quote": [
+      {
+       "close": [
+        31.5
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "error": null
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "chart": {
+  "result": [
+   {
+    "meta": {
+     "currency": "GBp",
+     "symbol": "VOD.L",
+     "exchangeName": "LSE",
+     "fullExchangeName": "LSE",
+     "instrumentType": "EQUITY",
+     "firstTradeDate": 946857600,
+     "regularMarketTime": 1790000000,
+     "hasPrePostMarketData": false,
+     "gmtoffset": 0,
+     "timezone": "UTC",
+     "exchangeTimezoneName": "Europe/London",
+     "regularMarketPrice": 71.3,
+     "priceHint": 2,
+     "dataGranularity": "3mo",
+     "range": ""
+    },
+    "timestamp": [
+     1773993600
+    ],
+    "indicators": {
+     "quote": [
+      {
+       "close": [
+        71.3
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "error": null
+ }
+}

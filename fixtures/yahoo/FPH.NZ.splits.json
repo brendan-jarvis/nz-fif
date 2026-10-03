@@ -1,0 +1,38 @@
+{
+ "chart": {
+  "result": [
+   {
+    "meta": {
+     "currency": "NZD",
+     "symbol": "FPH.NZ",
+     "exchangeName": "NZE",
+     "fullExchangeName": "NZE",
+     "instrumentType": "EQUITY",
+     "firstTradeDate": 946857600,
+     "regularMarketTime": 1790000000,
+     "hasPrePostMarketData": false,
+     "gmtoffset": 0,
+     "timezone": "UTC",
+     "exchangeTimezoneName": "Pacific/Auckland",
+     "regularMarketPrice": 35.55,
+     "priceHint": 2,
+     "dataGranularity": "3mo",
+     "range": ""
+    },
+    "timestamp": [
+     1742418000
+    ],
+    "indicators": {
+     "quote": [
+      {
+       "close": [
+        35.55
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "error": null
+ }
+}
