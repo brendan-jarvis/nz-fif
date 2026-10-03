@@ -32,4 +32,4 @@ Third-party data fetched at run time (only when price lookup is on)
 Third-party software
 --------------------
 See package.json for runtime dependencies (Preact - MIT; decimal.js - MIT;
-PapaParse - MIT; SheetJS Community Edition - Apache-2.0) and their licences.
+SheetJS Community Edition - Apache-2.0) and their licences.

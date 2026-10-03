@@ -87,7 +87,7 @@ Nothing has been deployed. When ready:
 | Milestone | Status |
 |---|---|
 | M0 privacy scaffold | done (local header proof instead of deploy) |
-| M1 parsers, merge, upload UI, reconciliation | not started |
+| M1 parsers, merge, upload UI, reconciliation | done |
 | M2 eligibility review, cash/MMF, assumptions | not started |
 | M3 price lookup, FX, ledger, FDR base, CV | not started |
 | M4 QSA, de minimis, FTC, method choice | not started |

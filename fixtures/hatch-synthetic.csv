@@ -1,0 +1,17 @@
+Date,Transaction type,Symbol,Investment name,Description,Amount (USD),Order fill price,Order share quantity,Order fee
+05/02/2026,Interest Adjustment,,,Reversal of January 2026 CD Interest,-2.05,,,
+03/02/2026,Dividend,,,January 2026 Dividend,4.10,,,
+03/02/2026,Interest Adjustment,,,January 2026 Interest,2.05,,,
+18/01/2026,Cancelled order - Buy,GLOBX,Globex Corp,"Market order for $1,500.00",0.00,,,
+05/01/2026,Dividend,DAGXX,,Money market fund,9.80,,,
+24/12/2025,Dividend,MEGA,Megacorp Holdings Inc,"MEGA dividend, $0.50 a share",23.38,,,
+15/09/2025,Dividend,GLOBX,Globex Corp,"GLOBX dividend, $0.21 a share",0.77,,,
+19/08/2025,Order - Buy,GLOBX,Globex Corp,Limit order for 4.5 shares @ $48.66 + $3.00 fee,-221.97,48.66,4.5,-3.00
+24/07/2025,Order - Sell,ROKT,Rocketeer Space Corp,Market order for 40.0 shares @ $38.25 - $4.00 fee,1526.15,38.25,40.0,-4.00
+27/06/2025,Dividend,MEGA,Megacorp Holdings Inc,"MEGA dividend, $0.50 a share",23.38,,,
+02/05/2025,Dividend,DAGXX,,Money market fund,38.62,,,
+09/04/2025,Order - Buy,MEGA,Megacorp Holdings Inc,Limit order for 10.0 shares @ $176.10 + $3.00 fee,-1764.00,176.10,10.0,-3.00
+06/04/2025,Order - Buy,MEGA,Megacorp Holdings Inc,Limit order for 25.0 shares @ $182.40 + $3.00 fee,-4563.05,182.40,25.0,-3.00
+04/04/2025,Cancelled order - Buy,MEGA,Megacorp Holdings Inc,Limit order for 10.0 shares @ $170.00,0.00,,,
+04/04/2025,Deposit,,,,7000.00,,,
+02/04/2025,Dividend,DAGXX,,Money market fund,121.07,,,

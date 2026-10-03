@@ -52,3 +52,32 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 - **Decision:** the Playwright "lookups off" check fails on any request after load **except** same-origin `GET /assets/*.js|css` with no query string (lazy chunks such as the parser Web Worker and the spreadsheet library).
 - **Why:** those are our own static files and carry no user data; loading them eagerly would slow first paint for everyone.
 - **Alternative:** preload every chunk at startup and assert literally zero requests.
+
+## 2026-10-04 – Own 40-line CSV reader instead of PapaParse
+- **Decision:** `packages/core/src/parsers/tabular.ts` has a small RFC 4180 reader; PapaParse was removed.
+- **Why:** PapaParse bundles an `XMLHttpRequest` streamer (`download: true`). We never used it, but the bundle scan flagged it; removing it means the shipped JS has **no network-capable code** outside `priceClient.ts` and the auditor has less to read.
+- **Alternative:** keep PapaParse and allowlist the XHR hit.
+
+## 2026-10-04 – Sharesies "Initiated by = System" rows are typed `DRP` (flagged)
+- **Decision:** treated as dividend reinvestments (`DRP`, an acquisition at cost, same FIF treatment as a buy), flagged `drp_inferred_from_initiated_by_system`.
+- **Why:** PLAN §0 found all 30 fall on dividend dates. For FDR/CV a DRP is an acquisition at cost either way; the label matters only for display and the CV "gains" side (the matching cash dividend must be counted as a gain when a dividend file is supplied).
+- **Confirm:** that these are DRPs (PLAN §12.7).
+
+## 2026-10-04 – Hatch: dividends grossed up at 15 % (flagged); money-market dividends not grossed up
+- **Decision:** default gross-up 15 % for Hatch share dividends (configurable); DAGXX / "Money market fund" dividends are taken as gross with withholding 0, flagged `mmf_dividend_withholding_unknown_assumed_nil`. The blank-symbol "January 2026 Dividend" row is kept as an unassigned dividend for the user to assign.
+- **Why:** PLAN §0 back-solves ~15 % on share dividends. US money-market "interest-related dividends" are commonly exempt from non-resident withholding, so grossing them up would invent a tax credit.
+- **Confirm:** 15 % (PLAN §12.7) and the DAGXX treatment against a Hatch tax statement.
+
+## 2026-10-04 – Hatch rows are US-venue; Sharesight supplies the exchange code and date when matched
+- **Decision:** Hatch has no market column, so Hatch trades are keyed to the pooled US venue (`SYMBOL:US`); when matched, the Sharesight market code and exchange date replace the inferred NZ date − 1.
+- **Why:** PLAN §0: All Trades date = Hatch date − 1 for all 16 orders; the merge window allows −2…0 days.
+
+## 2026-10-04 – US venues pooled in the instrument key
+- **Decision:** `instrumentKey` = `SYMBOL:US` for NASDAQ/NYSE/BATS/CBOE/NYSE Arca/OTC; other markets keep their own code (e.g. `CSL:ASX`).
+- **Why:** the same share appears as CBOE in Sharesies and BATS in Sharesight (ARKG); Hatch has no venue at all. A US ticker identifies one security across US venues.
+- **Alternative:** venue-specific keys with an alias table only.
+
+## 2026-10-04 – Synthetic fixtures; the openpyxl `dxfId` quirk is not reproduced
+- **Decision:** `scripts/make-fixtures.ts` deterministically generates all files in `fixtures/` with invented tickers (ACME, GLOBX, ZETF, ROKT, PLNT, TRPL, MEGA), quantities, prices, rates and IDs, copying only the shapes and quirks of the real exports. A private script checks that no non-trivial number from the real files appears in a fixture.
+- **Why:** only anonymised/synthetic data may be committed.
+- **Gap:** SheetJS cannot write the table-part `dxfId` that crashes openpyxl; the browser reader (SheetJS) is not affected by it, and the real file is covered by the private golden test.

@@ -3,10 +3,38 @@
   "rules": [
     {
       "pattern": "externalUrl",
-      "file": "assets/*.js",
+      "file": "assets/index-*.js",
       "match": "http://www.w3.org",
+      "maxCount": 8,
+      "why": "XML namespace identifiers (SVG, XLink, XHTML, MathML) used by Preact's DOM renderer. Identifiers only, never requested."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/parse.worker-*.js",
+      "match": "http://schemas.openxmlformats.org",
+      "maxCount": 40,
+      "why": "Office Open XML namespace URIs inside SheetJS (xlsx reader). Identifiers compared against the uploaded file's XML; never requested. CSP connect-src would block them anyway."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/parse.worker-*.js",
+      "match": "http://schemas.microsoft.com",
       "maxCount": 12,
-      "why": "XML namespace identifiers (SVG, XLink, XHTML, MathML) used by Preact's DOM renderer and SheetJS's XML writer. Identifiers only, never requested."
+      "why": "Microsoft Office XML namespace URIs inside SheetJS. Identifiers only."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/parse.worker-*.js",
+      "match": "http://purl.oclc.org",
+      "maxCount": 4,
+      "why": "Strict OOXML / Dublin Core namespace URIs inside SheetJS. Identifiers only."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/parse.worker-*.js",
+      "match": "http://sheetjs.openxmlformats.org",
+      "maxCount": 2,
+      "why": "SheetJS internal namespace identifier. Never requested."
     }
   ]
 }
