@@ -8,3 +8,7 @@ export * from './merge';
 export * from './fx';
 export * from './ledger';
 export * from './fif';
+export * from './classify';
+export * from './cashFunds';
+export * from './assumptions';
+export * from './report';

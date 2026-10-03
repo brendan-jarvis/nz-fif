@@ -111,3 +111,12 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 - **Why:** a single call to "now" for an old date returns years of daily bars (large JSON → CPU and bandwidth against the 10 ms Free-plan limit). Two tiny calls stay well inside 50 subrequests and 10 ms.
 - **Not done:** Stooq fallback (needs an API key kept as a secret and has unclear terms); the `PriceSource` seam is the `lookup()` function. Manual entry is always available.
 - **Confirm:** whether a fallback source is wanted before launch.
+
+## 2026-10-04 – Eligibility rules: OTHER-market holdings go to Review unless the name looks like a token
+- **Decision:** rules in PLAN §5 order. Sharesight "OTHER" holdings are suggested Not FIF (crypto) only when the name contains token/coin/protocol/crypto words; otherwise Review. A Hatch dividend with no ticker is shown as "unassigned" (excluded until assigned). The bundled ASX exemption list is deliberately empty, so every ASX holding is Review with the IRD tool link.
+- **Why:** never silently exclude something that could be a FIF. On the real FY2026 files: 22 US listings → FIF, 8 → Not FIF (7 CRYPTO + 1 OTHER token), 2 OTHER tokens (REEF, CUMMIES) → Review (PLAN §0 expected all 3 OTHER as Not FIF; one click each), DAGXX → Cash/MMF.
+- **Confirm:** a sourced, dated ASX list if you want ASX defaults.
+
+## 2026-10-04 – Cash funds: CV-only approximation without flow data
+- **Decision:** when included, a cash fund's CV = closing NZD + (opening balance at the exit date's rate, if an exit date is given) + gross dividends − opening NZD; deposits/withdrawals are otherwise ignored (flagged). Treatment `cv` adds that CV to both totals (CV-only pool); `same` adds 5 % × opening NZD to FDR and the CV to CV. QSA for the `same` treatment is not computed (needs sweep data).
+- **Confirm:** whether to import Hatch tax-report flows for an exact figure.

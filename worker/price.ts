@@ -213,6 +213,6 @@ export async function handle(req: Request, env: Env, deps: Deps): Promise<Respon
 
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
-    return handle(req, env, { fetch: (i, init) => fetch(i, init), cache: caches.default, now: () => new Date() });
+    return handle(req, env, { fetch: (i, init) => fetch(i, init), cache: (caches as unknown as { default: Cache }).default, now: () => new Date() });
   },
-} satisfies ExportedHandler<Env>;
+};

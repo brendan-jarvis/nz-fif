@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./data/rbnz-b1-daily.json": "./data/rbnz-b1-daily.json"
   },
   "sideEffects": false,
   "dependencies": {
