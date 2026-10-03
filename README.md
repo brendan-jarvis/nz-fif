@@ -88,10 +88,10 @@ Nothing has been deployed. When ready:
 |---|---|
 | M0 privacy scaffold | done (local header proof instead of deploy) |
 | M1 parsers, merge, upload UI, reconciliation | done |
-| M2 eligibility review, cash/MMF, assumptions | not started |
-| M3 price lookup, FX, ledger, FDR base, CV | not started |
-| M4 QSA, de minimis, FTC, method choice | not started |
-| M5 Sharesight-shaped report, downloads, IR3 | not started |
+| M2 eligibility review, cash/MMF, assumptions | done (ASX list intentionally empty) |
+| M3 price lookup, FX, ledger, FDR base, CV | done (no Stooq fallback; Rate Limiting binding dropped) |
+| M4 QSA, de minimis, FTC, method choice | done |
+| M5 Sharesight-shaped report, downloads, IR3 | mostly done: column names unverified until checked against a Sharesight FIF report export |
 
 ## Licence
 

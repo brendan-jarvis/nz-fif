@@ -120,3 +120,16 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 ## 2026-10-04 – Cash funds: CV-only approximation without flow data
 - **Decision:** when included, a cash fund's CV = closing NZD + (opening balance at the exit date's rate, if an exit date is given) + gross dividends − opening NZD; deposits/withdrawals are otherwise ignored (flagged). Treatment `cv` adds that CV to both totals (CV-only pool); `same` adds 5 % × opening NZD to FDR and the CV to CV. QSA for the `same` treatment is not computed (needs sweep data).
 - **Confirm:** whether to import Hatch tax-report flows for an exact figure.
+
+## 2026-10-04 – Worker entry file exports only the handler
+- **Decision:** `worker/price.ts` (wrangler `main`) contains only `export default { fetch }`; all logic is in `worker/lib.ts`.
+- **Why:** the Workers runtime refuses to start a module that has non-handler named exports (found by `wrangler dev`).
+
+## 2026-10-04 – "Accept all suggestions" leaves Review items as Review
+- **Decision:** the button records every suggestion but does not resolve Review items (ASX, unknown market); each needs an explicit choice. Excluding a holding yourself requires a note.
+- **Why:** PLAN §5: Review items block the report, and ASX holdings are never silently exempted (or silently included).
+
+## 2026-10-04 – Report: provisional column names; PDF is the browser's print-to-PDF
+- **Decision:** sections follow PLAN §8 with our own column names (marked provisional). "Print / save as PDF" uses a print stylesheet; no PDF library is bundled.
+- **Why:** no Sharesight FIF report export was available to copy headers from; a PDF library would add a large dependency to audit.
+- **Confirm:** please supply a Sharesight FIF report export (PDF/CSV) so the column names can be locked (M5).

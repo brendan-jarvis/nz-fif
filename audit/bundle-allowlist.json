@@ -35,6 +35,20 @@
       "match": "http://sheetjs.openxmlformats.org",
       "maxCount": 2,
       "why": "SheetJS internal namespace identifier. Never requested."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/index-*.js",
+      "match": "https://www.ird.govt.nz",
+      "maxCount": 4,
+      "why": "Plain links to IRD's FIF Australia tool and guidance, shown as text or an <a> the user may click (target=_blank, rel=noopener noreferrer). Never fetched by the app; CSP connect-src would block it."
+    },
+    {
+      "pattern": "externalUrl",
+      "file": "assets/rbnz-b1-daily-*.js",
+      "match": "https://www.rbnz.govt.nz",
+      "maxCount": 1,
+      "why": "Source URL in the bundled RBNZ exchange-rate dataset's metadata (attribution). Never fetched."
     }
   ]
 }

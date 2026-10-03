@@ -1,7 +1,7 @@
 // Unit tests for worker/price.ts with an injected fake upstream and cache.
 import { beforeEach, describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { handle, _resetState, UPSTREAM_PER_MINUTE, type Deps, type PriceResponse } from '../worker/price';
+import { handle, _resetState, UPSTREAM_PER_MINUTE, type Deps, type PriceResponse } from '../worker/lib';
 
 const NOW = new Date('2026-10-03T10:00:00Z');
 

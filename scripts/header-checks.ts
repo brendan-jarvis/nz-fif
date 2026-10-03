@@ -22,14 +22,14 @@ export async function runHeaderChecks(origin: string, fetcher: Fetcher = fetch):
   add('no inline <script> in HTML', !/<script(?![^>]*\bsrc=)[^>]*>/i.test(html));
 
   const bad = await fetcher(`${origin}/api/price?symbol=bad!&date=2025-03-31`, { redirect: 'manual' });
-  add('/api/price rejects a bad symbol (400 or 404 stub)', bad.status === 400 || bad.status === 404, `status ${bad.status}`);
+  add('/api/price rejects a bad symbol with 400', bad.status === 400, `status ${bad.status}`);
   add('/api/price is no-store', (bad.headers.get('cache-control') ?? '').includes('no-store'), bad.headers.get('cache-control') ?? 'missing');
   add('/api/price sends no CORS', ![...bad.headers.keys()].some((k) => k.startsWith('access-control-')));
   add('/api/price sends no Set-Cookie', !bad.headers.has('set-cookie'));
   add('/api/price never redirects', bad.status < 300 || bad.status >= 400, `status ${bad.status}`);
 
   const post = await fetcher(`${origin}/api/price?symbol=AAPL&date=2025-03-31`, { method: 'POST', body: 'x', redirect: 'manual' });
-  add('/api/price rejects POST', post.status === 405 || post.status === 404, `status ${post.status}`);
+  add('/api/price rejects POST with 405', post.status === 405, `status ${post.status}`);
 
   const missing = await fetcher(`${origin}/definitely-not-a-file.txt`, { redirect: 'manual' });
   add('unknown path is 404', missing.status === 404, `status ${missing.status}`);

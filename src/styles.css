@@ -18,3 +18,21 @@ td.flags { font-size: 0.7rem; color: #666; max-width: 22rem; }
 details { margin: 0.5rem 0; }
 footer { margin-top: 3rem; color: #666; font-size: 0.85rem; }
 input[type='search'] { width: 100%; max-width: 30rem; padding: 0.3rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.6rem 1rem; }
+.grid label { display: flex; flex-direction: column; font-size: 0.85rem; gap: 0.2rem; }
+.grid label.check { flex-direction: row; align-items: center; }
+.scroll { overflow-x: auto; }
+input.sym { width: 6rem; } input.note { width: 10rem; } input.num { width: 7rem; text-align: right; }
+.ok { color: #176c3a; } .muted { color: #777; } .note { font-size: 0.8rem; color: #555; }
+.consent { border: 2px solid #2a6; background: #f2fbf5; padding: 0.75rem 1rem; border-radius: 6px; margin: 0.5rem 0; }
+.cards { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.75rem 0; }
+.card { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 0.5rem 0.9rem; min-width: 10rem; }
+.card .label { font-size: 0.8rem; color: #555; } .card .big { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+button.link { background: none; border: none; color: #155a9c; text-decoration: underline; cursor: pointer; font-size: 0.8rem; }
+label.button { display: inline-block; border: 1px solid #888; border-radius: 3px; padding: 0.1rem 0.5rem; cursor: pointer; background: #f4f4f4; font-size: 0.85rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media print {
+  .no-print, header .tagline, section:not(.report), footer, details { display: none !important; }
+  main { max-width: none; padding: 0; }
+  table.data { font-size: 0.7rem; }
+}
