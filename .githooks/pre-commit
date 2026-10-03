@@ -7,6 +7,9 @@
 #     (built locally from the real exports by scripts/build-denylist.ts:
 #     trade IDs, distinctive quantities and amounts, names, emails).
 #  5. No NZ bank account numbers or personal-looking emails.
+#  Exempt from (4): packages/core/data/rbnz-b1-daily.json, a public RBNZ dataset whose
+#  numbers can coincide with exchange rates in the real exports. Its exact shape is
+#  enforced by tests/data-provenance.test.ts so nothing else can hide in it.
 set -euo pipefail
 fail=0
 staged=$(git diff --cached --name-only --diff-filter=ACMR)
@@ -32,7 +35,7 @@ done <<< "$staged"
 # Text content of staged additions (binary xlsx fixtures are unzipped to text first).
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-git diff --cached -U0 --diff-filter=ACMR --no-color -- . ':(exclude).githooks/pre-commit' \
+git diff --cached -U0 --diff-filter=ACMR --no-color -- . ':(exclude).githooks/pre-commit' ':(exclude)packages/core/data/rbnz-b1-daily.json' \
   | grep -E '^\+' | grep -vE '^\+\+\+ ' > "$tmp/added.txt" || true
 while IFS= read -r f; do
   case "$f" in

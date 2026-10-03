@@ -24,6 +24,7 @@ with an AI assistant. Every item names the file to read and what must be true.
 - [ ] `tests/worker.test.ts` – validation, no `console`, cache key `symbol|date`, no-store, no CORS, no redirects.
 - [ ] `tests/e2e/network.spec.ts` – in a real browser against `wrangler dev`: CSP blocks other connections; with lookups off there are zero requests after load (other than our own static chunks); with lookups on every request matches `^/api/price\?symbol=[A-Z0-9.\-]+&date=\d{4}-\d{2}-\d{2}$`, is a GET with no body and no cookies, and contains no quantity or amount from the fixture; storage is empty afterwards.
 - [ ] `.githooks/pre-commit` – data guard: no real exports committed.
+- [ ] `packages/core/data/rbnz-b1-daily.json` – public RBNZ exchange rates, exempt from the denylist grep; `tests/data-provenance.test.ts` pins its shape (dates + rates only). Rebuild with `scripts/build-rbnz.ts` and diff.
 
 ## 4. Deploy integrity
 

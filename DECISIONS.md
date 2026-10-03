@@ -81,3 +81,27 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 - **Decision:** `scripts/make-fixtures.ts` deterministically generates all files in `fixtures/` with invented tickers (ACME, GLOBX, ZETF, ROKT, PLNT, TRPL, MEGA), quantities, prices, rates and IDs, copying only the shapes and quirks of the real exports. A private script checks that no non-trivial number from the real files appears in a fixture.
 - **Why:** only anonymised/synthetic data may be committed.
 - **Gap:** SheetJS cannot write the table-part `dxfId` that crashes openpyxl; the browser reader (SheetJS) is not affected by it, and the real file is covered by the private golden test.
+
+## 2026-10-04 – FX: bundled RBNZ B1 snapshot; trades on the transaction date; values on 31 March
+- **Decision:** default FX mode `rbnz`: every amount converted at the RBNZ B1 daily rate for its date (exchange date by default), walking back up to 7 days for weekends/holidays. Opening values use the **31 March** rate of the previous year (IRD allows the 31 March rate for 1 April); closing values use 31 March. `trade` (match) mode uses Sharesight's per-trade `Value`/`Exch. Rate` for trades and RBNZ for market values and broker dividends. The snapshot covers USD, GBP, AUD, JPY, EUR, CAD, HKD, SGD from 2018.
+- **Why:** PLAN §6.3/§12 default; RBNZ licence allows redistribution; one consistent method (s EX 57).
+- **Alternative:** IRD rolling 12-month average (not built yet; IRD reuse licence unverified).
+- **Confirm:** that "actual daily rate on the exchange date" is the convention you want for US trades (the NZ date is one day later).
+
+## 2026-10-04 – Same-day ordering: acquisitions before disposals
+- **Decision:** within one date the ledger applies opening/buys/DRPs, then merge-cancel, merge-buy, splits, sells.
+- **Why:** intraday order is unknown in the exports; matches the reference implementation (and so its peak holdings). It can only raise the peak, never lower it.
+- **Alternative:** use broker timestamps when both legs come from Sharesies (not done).
+
+## 2026-10-04 – Quick sale: strict "acquire then later dispose"; dividends left out of the gain
+- **Decision:** a QSA is required only if a disposal follows an in-year acquisition (s EX 52(6) "later disposes"); the reference implementation required any buy and any sell in the year (kept as `qsaStrictOrder: false` for the differential test). The quick sale gain counts disposal proceeds only; dividends received on quick-sale shares ("derives from holding", s EX 52(12)) are not added (flagged `qs_gain_excludes_dividends_on_quick_sale_shares`).
+- **Why:** follows the statute text; per-share dividend attribution needs data we don't reliably have. Effect is small and only increases the gain leg.
+- **Confirm:** whether to include those dividends.
+
+## 2026-10-04 – FTC under CV is capped per holding on max(0, CV), zero if the CV total is floored
+- **Decision:** FTC per holding = min(withholding, marginal rate × that holding's FIF income); under CV a negative holding gets no credit and a floored portfolio gets none.
+- **Why:** IR461 p.20 caps the credit per FIF interest; offsetting between holdings is not addressed.
+- **Confirm:** with an adviser if CV is the method chosen.
+
+## 2026-10-04 – De minimis cost uses trade NZD values under the chosen FX mode
+- **Decision:** running FIFO cost of FIF-classed holdings, converted like other trades (RBNZ on the trade date, or Sharesight values in match mode), checked at each day's end; a trade whose cost can't be determined marks the test incomplete.
