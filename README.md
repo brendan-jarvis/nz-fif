@@ -28,7 +28,8 @@ pnpm install --frozen-lockfile
 pnpm dev               # Vite dev server (no Worker; price lookups need wrangler)
 pnpm check             # typecheck + lint + tests + build + bundle scan
 pnpm headers:local     # build for localhost and assert live headers via `wrangler dev`
-pnpm e2e               # Playwright privacy tests against `wrangler dev`
+pnpm e2e               # Playwright privacy + full-flow tests against `wrangler dev`
+pnpm golden            # private real-data checks (needs files in private/; never in CI)
 ```
 
 `wrangler dev` runs locally in workerd and needs no Cloudflare login.
@@ -39,7 +40,7 @@ pnpm e2e               # Playwright privacy tests against `wrangler dev`
 |---|---|
 | `packages/core/` | Pure TypeScript: parsers, merge, ledger, IRD engine, report model. No I/O. |
 | `src/` | The Preact single-page app. `src/net/priceClient.ts` is the only `fetch`. |
-| `worker/price.ts` | The entire server: `GET /api/price`. |
+| `worker/price.ts`, `worker/lib.ts` | The entire server: `GET /api/price` (entry file + logic). |
 | `public/_headers` | CSP and security headers for static assets. |
 | `wrangler.jsonc` | Cloudflare Workers config: static assets + one route, no bindings. |
 | `fixtures/` | **Synthetic** sample exports and recorded price responses. Never real data. |
@@ -56,7 +57,7 @@ nz-fif is designed for the **Workers Free** plan only. No paid add-ons.
 | **100,000 Worker requests/day** (account-wide, resets 00:00 UTC) | Only `/api/price` invokes the Worker (`run_worker_first: ["/api/price"]`). A report needs at most 2 lookups per FIF holding (opening and closing price), e.g. 25 holdings → 50 requests, so ~2,000 full reports/day. Lookups are optional and manual entry always works. |
 | **10 ms CPU per request** | The Worker validates two strings, makes at most two small upstream GETs (network wait is not CPU time), picks one bar and multiplies by split ratios. The upstream window is ~2 weeks of daily bars plus a split list, so JSON parsing stays tiny. Cache hits do no parsing at all. |
 | **50 subrequests per request** | At most 2 (bars + split events). |
-| **Over the daily limit** | Cloudflare answers `/api/price` with 429; `priceClient.ts` reports "rate limited" and the UI falls back to manual price entry. Static assets keep working. |
+| **Over the daily limit** | Cloudflare answers `/api/price` with an error (and our own per-isolate budget of 60 upstream calls/minute answers 429); `priceClient.ts` reports "rate limited" and the UI falls back to manual price entry. Static assets keep working. |
 | **No KV / D1 / R2 / Durable Objects / Queues / Analytics Engine** | None used. `wrangler.jsonc` has no bindings at all (enforced by `tests/config.test.ts`). |
 | **Rate Limiting binding** | Not used: its Free-plan availability is not stated in Cloudflare's docs (see DECISIONS.md). |
 

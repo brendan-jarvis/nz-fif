@@ -6,7 +6,7 @@ browser.
 
 ## What leaves your browser
 
-Only one thing, and only when **price lookup is on**:
+Only one thing, and only after you click **Look up prices** and confirm:
 
 | Sent | To | Example |
 |---|---|---|
@@ -16,20 +16,22 @@ Only one thing, and only when **price lookup is on**:
   Cloudflare's edge, which sees the URL and your IP address like any web
   request. It does **not** reveal quantities, values, costs, dividends, your
   broker, or anything from your files.
-- Before the first lookup in a session the page lists the exact tickers and
-  dates it is about to send and asks you to choose **Fetch** or **Enter manually**.
+- Every time, before anything is sent, the page lists the exact ticker/date
+  pairs and asks you to choose **Send** or **Cancel**. Cancel and type prices
+  by hand instead if you prefer.
 - Our Worker forwards the symbol and date range to Yahoo Finance. Yahoo sees
   Cloudflare's request only, never your IP address, browser, cookies or referrer.
-- You can turn lookups off. Manual entry works fully offline.
+- Lookups are never automatic. Manual entry works fully offline.
 
 ## What the server keeps
 
-Nothing about you. The whole server is one file, [`worker/price.ts`](worker/price.ts):
+Nothing about you. The whole server is [`worker/price.ts`](worker/price.ts) (entry) and [`worker/lib.ts`](worker/lib.ts) (logic):
 
 - It accepts only `GET /api/price?symbol=…&date=…` (strictly validated) and returns 404/400 for anything else.
 - It has **no storage bindings** (no KV, D1, R2, Durable Objects, Queues, Analytics Engine, rate-limit counters) – see [`wrangler.jsonc`](wrangler.jsonc).
 - Workers Logs, traces and Logpush are **off**; the code never calls `console`.
-- Its only caches hold **public price data** keyed solely on `symbol|date`: Cloudflare's Cache API (7 days) and a short-lived in-memory map inside the running Worker. Nothing in them identifies you.
+- Its only caches hold **public price data** keyed solely on `symbol|date`: Cloudflare's Cache API (7 days; "not found" for 1 hour) and a short-lived in-memory map inside the running Worker. Nothing in them identifies you.
+- A single in-memory counter of upstream calls per minute (per Worker instance, not per person) protects Yahoo; when it runs out you get 429 and can enter prices by hand.
 - It does not read or forward your IP address, cookies or headers, and sends no CORS headers (same-origin only).
 
 ## What your browser keeps
