@@ -71,7 +71,7 @@ export function parseAssumptions(text: string): Assumptions {
   }
   const dividendAssignments: Record<string, string> = {};
   for (const [k, v] of Object.entries((cf.dividendAssignments ?? {}) as Record<string, unknown>)) {
-    if (/^[\w:#.\-]{1,120}$/.test(k) && KEY_RE.test(str(v, 40))) dividendAssignments[k] = str(v, 40);
+    if (/^[\w:#.-]{1,120}$/.test(k) && KEY_RE.test(str(v, 40))) dividendAssignments[k] = str(v, 40);
   }
   const prices: Assumptions['prices'] = {};
   for (const [k, v] of Object.entries((raw.prices ?? {}) as Record<string, Record<string, unknown>>)) {
