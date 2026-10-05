@@ -8,12 +8,14 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 - **Why:** PLAN §10 recommends Apache-2.0 (patent grant + NOTICE).
 - **Alternative:** MIT; or a personal copyright line in your own name.
 - **Confirm:** name, licence and copyright holder.
+- **Status (5 Oct 2026):** name `nz-fif` and Apache-2.0 licence confirmed by Brendan. Repo to be published publicly as `brendan-jarvis/nz-fif`.
 
 ## 2026-10-04 – Commit author is a neutral placeholder
 - **Decision:** commits are authored as `nz-fif overnight build <nz-fif@example.invalid>`.
 - **Why:** avoid putting a real email address in a repo that will become public, and avoid committing as Brendan without his say-so.
 - **Alternative:** `git rebase --root --exec 'git commit --amend --no-edit --reset-author'` before publishing (rewrites local history only; nothing has been pushed).
 - **Confirm:** whether to re-author before the first push.
+- **Resolved (5 Oct 2026):** before the first push, all local commits were re-authored (author and committer) under Brendan's GitHub identity with his GitHub noreply address (`3581502+brendan-jarvis@users.noreply.github.com`), so no real email is published. In the same local-only rewrite, one real trade timestamp that had been copied from a real export into the `parseUtcStamp` doc comment and test (`packages/core/src/dates.ts`, `packages/core/test/dates.test.ts`) was replaced with a synthetic one.
 
 ## 2026-10-04 – Workers Rate Limiting binding dropped (Free-plan availability unclear)
 - **Decision:** no `ratelimits` binding. `wrangler.jsonc` has **no bindings at all**. Protection is: Cache API + per-isolate memory cache + Cloudflare subrequest cache (see next entry), a small per-isolate upstream budget in the Worker (a module-scope counter, never persisted, never keyed on IP), strict validation, and the `PRICE_SOURCE=off` kill switch.
