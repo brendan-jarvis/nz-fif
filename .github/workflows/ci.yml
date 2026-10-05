@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      # Node is still needed under the hood: Wrangler 4, Vite and Playwright run on Node 22.
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: bun install --frozen-lockfile
       # typecheck, lint (privacy bans), unit + worker + config + CSP tests, build, bundle scan.
       # Tests never touch the network: tests/setup-no-network.ts makes fetch throw.
-      - run: pnpm check
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm e2e
-      - run: pnpm headers:local
+      - run: bun run check
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run e2e
+      - run: bun run headers:local

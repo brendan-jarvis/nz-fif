@@ -2,7 +2,7 @@
 // price, rate and ID here is invented; the files only copy the *shape* and
 // quirks of real Sharesies / Hatch / Sharesight exports (PLAN §0, §9).
 // Deterministic: re-running produces identical files.
-//   pnpm tsx scripts/make-fixtures.ts
+//   bun scripts/make-fixtures.ts
 import { mkdirSync, writeFileSync } from 'node:fs';
 import * as XLSX from 'xlsx';
 import { Decimal } from '../packages/core/src/decimal';

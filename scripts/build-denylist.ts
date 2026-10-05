@@ -1,6 +1,6 @@
 // Builds private/denylist.txt from your REAL exports so the pre-commit hook
 // can block them from ever being committed. Run locally only:
-//   pnpm tsx scripts/build-denylist.ts <export files...> [--names "Name1,Name2"]
+//   bun scripts/build-denylist.ts <export files...> [--names "Name1,Name2"]
 // Extracts: trade IDs, distinctive quantities and amounts (>= 5 significant
 // digits), and any names you pass. The output stays in private/ (git-ignored).
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';

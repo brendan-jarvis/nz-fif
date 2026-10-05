@@ -21,15 +21,15 @@ See the milestone table at the bottom of this file. Design: PLAN §11 (kept priv
 
 ## Quick start (development)
 
-Requires Node 22 (`.nvmrc`) and pnpm 10.
+Requires Bun 1.4.2 (`.bun-version`; package manager and script runner) and Node 22 (`.nvmrc`; Wrangler, Vite and Playwright still run on Node under the hood).
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm dev               # Vite dev server (no Worker; price lookups need wrangler)
-pnpm check             # typecheck + lint + tests + build + bundle scan
-pnpm headers:local     # build for localhost and assert live headers via `wrangler dev`
-pnpm e2e               # Playwright privacy + full-flow tests against `wrangler dev`
-pnpm golden            # private real-data checks (needs files in private/; never in CI)
+bun install --frozen-lockfile
+bun run dev           # Vite dev server (no Worker; price lookups need wrangler)
+bun run check         # typecheck + lint + tests + build + bundle scan
+bun run headers:local # build for localhost and assert live headers via `wrangler dev`
+bun run e2e           # Playwright privacy + full-flow tests against `wrangler dev`
+bun run golden        # private real-data checks (needs files in private/; never in CI)
 ```
 
 `wrangler dev` runs locally in workerd and needs no Cloudflare login.
@@ -90,9 +90,9 @@ Nothing has been deployed. When ready:
 3. Make sure Web Analytics auto-inject, Zaraz, Rocket Loader and Email Obfuscation are off.
 4. Either run the tagged-release workflow (`.github/workflows/release.yml`, needs `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SITE_ORIGIN`), or locally:
    ```bash
-   SITE_ORIGIN=https://nz-fif.<subdomain>.workers.dev pnpm build && pnpm manifest
-   pnpm exec wrangler login && pnpm exec wrangler deploy
-   pnpm verify-deploy https://nz-fif.<subdomain>.workers.dev
+   SITE_ORIGIN=https://nz-fif.<subdomain>.workers.dev bun run build && bun run manifest
+   bunx wrangler login && bunx wrangler deploy
+   bun run verify-deploy https://nz-fif.<subdomain>.workers.dev
    ```
 
 ## Milestones

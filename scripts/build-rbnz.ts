@@ -1,5 +1,5 @@
 // Build the bundled RBNZ B1 daily exchange-rate snapshot.
-// Usage: tsx scripts/build-rbnz.ts <hb1-daily.xlsx downloaded from rbnz.govt.nz>
+// Usage: bun scripts/build-rbnz.ts <hb1-daily.xlsx downloaded from rbnz.govt.nz>
 // Output: packages/core/data/rbnz-b1-daily.json (foreign units per 1 NZD).
 // RBNZ: "You are free to copy, distribute and adapt these statistics subject to
 // the conditions listed on our copyright page." Attribution is in NOTICE.

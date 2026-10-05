@@ -15,7 +15,7 @@ with an AI assistant. Every item names the file to read and what must be true.
 - [ ] **`src/net/priceClient.ts`** is the only file that calls `fetch`. URLs are only `/api/price?symbol=…&date=…`; `credentials: 'omit'`, `referrerPolicy: 'no-referrer'`, no body, no custom headers.
 - [ ] **`src/io/readFile.ts`** reads files with `Blob.arrayBuffer()` into memory; **`src/io/download.ts`** builds downloads with `Blob` + `<a download>`.
 - [ ] **`eslint.config.js`** bans `fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `sendBeacon`, `RTCPeerConnection`, storage APIs, `document.cookie`, `cookieStore`, `navigator.serviceWorker`, `importScripts` everywhere in `src/` and `packages/core/` except `fetch` in `priceClient.ts`; bans `console` and storage bindings in `worker/`. `tests/eslint-guard.test.ts` proves each ban fires.
-- [ ] **`scripts/scan-bundle.ts`** + **`audit/bundle-allowlist.json`**: after `pnpm build`, every network/storage/eval string in `dist/` is listed with a reason.
+- [ ] **`scripts/scan-bundle.ts`** + **`audit/bundle-allowlist.json`**: after `bun run build`, every network/storage/eval string in `dist/` is listed with a reason.
 
 ## 3. Tests that enforce the above
 
@@ -29,13 +29,13 @@ with an AI assistant. Every item names the file to read and what must be true.
 ## 4. Deploy integrity
 
 - [ ] `.github/workflows/release.yml` builds a tag with a frozen lockfile and `SOURCE_DATE_EPOCH`, writes `build-manifest.json` (SHA-256 of every asset and the Worker bundle, commit and tag), attests it and deploys exactly that output.
-- [ ] `scripts/verify-deploy.ts`: `pnpm verify-deploy https://<site>` compares every live asset with the manifest and checks the live headers.
+- [ ] `scripts/verify-deploy.ts`: `bun run verify-deploy https://<site>` compares every live asset with the manifest and checks the live headers.
 
 ## 5-minute verification recipe
 
-1. `git clone … && cd nz-fif && pnpm install --frozen-lockfile`
-2. `pnpm check` – typecheck, lint (privacy bans), unit/worker/config/CSP tests, build, bundle scan.
-3. `pnpm headers:local` – starts `wrangler dev` locally (no Cloudflare login) and checks the live headers.
-4. `pnpm e2e` – Playwright network and storage tests.
+1. `git clone … && cd nz-fif && bun install --frozen-lockfile`
+2. `bun run check` – typecheck, lint (privacy bans), unit/worker/config/CSP tests, build, bundle scan.
+3. `bun run headers:local` – starts `wrangler dev` locally (no Cloudflare login) and checks the live headers.
+4. `bun run e2e` – Playwright network and storage tests.
 5. Open the live site, open DevTools → Network, load the sample files in `fixtures/` with lookups off: no requests. Turn lookups on: only `/api/price?symbol=…&date=…` GETs appear. Application tab: no cookies, storage or service workers.
-6. `pnpm verify-deploy https://<site>` against the release's `build-manifest.json`.
+6. `bun run verify-deploy https://<site>` against the release's `build-manifest.json`.

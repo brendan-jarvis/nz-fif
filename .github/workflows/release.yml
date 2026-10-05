@@ -16,17 +16,19 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      # Node is still needed under the hood: Wrangler 4, Vite and Playwright run on Node 22.
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: bun install --frozen-lockfile
       - name: Reproducible build
         run: |
           export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
-          pnpm check
-          pnpm manifest
+          bun run check
+          bun run manifest
         env:
           SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
       - uses: actions/attest-build-provenance@v2
@@ -37,10 +39,10 @@ jobs:
           name: build-manifest
           path: build-manifest.json
       - name: Deploy exactly this dist/
-        run: pnpm exec wrangler deploy
+        run: bunx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           WRANGLER_SEND_METRICS: 'false'
       - name: Verify live site against the manifest
-        run: pnpm verify-deploy "${{ vars.SITE_ORIGIN }}" build-manifest.json
+        run: bun run verify-deploy "${{ vars.SITE_ORIGIN }}" build-manifest.json

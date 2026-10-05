@@ -1,16 +1,18 @@
 // M0 "prove the headers" without deploying: build for a localhost origin,
 // start `wrangler dev` (local workerd, no Cloudflare login), and assert the
-// live response headers. Usage: pnpm headers:local
+// live response headers. Usage: bun run headers:local
 import { spawn, execSync } from 'node:child_process';
 import { report, runHeaderChecks } from './header-checks';
 
 const port = Number(process.env.PORT ?? 8799);
 const origin = `http://localhost:${port}`;
 
-execSync('pnpm build', { stdio: 'inherit', env: { ...process.env, SITE_ORIGIN: origin } });
-const child = spawn('npx', ['wrangler', 'dev', '--local', '--port', String(port), '--ip', '127.0.0.1', '--show-interactive-dev-session=false'], {
+execSync('bun run build', { stdio: 'inherit', env: { ...process.env, SITE_ORIGIN: origin } });
+const child = spawn('bunx', ['wrangler', 'dev', '--local', '--port', String(port), '--ip', '127.0.0.1', '--show-interactive-dev-session=false'], {
   env: { ...process.env, WRANGLER_SEND_METRICS: 'false', CI: '1' },
   stdio: ['ignore', 'pipe', 'pipe'],
+  // Own process group, so the whole tree (bunx -> wrangler -> workerd) can be stopped below.
+  detached: true,
 });
 let log = '';
 child.stdout.on('data', (d) => (log += d));
@@ -32,6 +34,7 @@ try {
   await waitReady();
   ok = report(await runHeaderChecks(origin));
 } finally {
-  child.kill('SIGTERM');
+  // Signal the process group: killing only bunx would leave wrangler dev running.
+  try { process.kill(-child.pid!, 'SIGTERM'); } catch { child.kill('SIGTERM'); }
 }
 process.exit(ok ? 0 : 1);

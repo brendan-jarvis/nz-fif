@@ -1,4 +1,4 @@
-// pnpm verify-deploy <https://site.example> [build-manifest.json]
+// bun run verify-deploy <https://site.example> [build-manifest.json]
 // Compares every deployed static asset with the tagged build manifest and
 // checks the live security headers. Read-only GET requests only.
 import { createHash } from 'node:crypto';
@@ -7,7 +7,7 @@ import { report, runHeaderChecks } from './header-checks';
 
 const origin = (process.argv[2] ?? '').replace(/\/$/, '');
 if (!/^https:\/\/[a-z0-9.-]+$/.test(origin)) {
-  console.error('usage: pnpm verify-deploy https://<host> [build-manifest.json]');
+  console.error('usage: bun run verify-deploy https://<host> [build-manifest.json]');
   process.exit(2);
 }
 const manifest = JSON.parse(readFileSync(process.argv[3] ?? 'build-manifest.json', 'utf8')) as { commit: string; assets: Record<string, string> };

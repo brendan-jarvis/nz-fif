@@ -8,5 +8,5 @@
 - **Content:** foreign-currency units per 1 NZD (the 2 pm WM/LSEG fix as published by RBNZ) for USD, GBP, AUD,
   JPY, EUR, CAD, HKD, SGD, 2018-01-03 onwards. Missing days (weekends, holidays) walk back up to 7 days.
 - **Rebuild:** download `hb1-daily.xlsx` from the page above (RBNZ blocks scripted downloads, so use a browser),
-  then `pnpm tsx scripts/build-rbnz.ts path/to/hb1-daily.xlsx`. The JSON is deterministic for a given file.
+  then `bun scripts/build-rbnz.ts path/to/hb1-daily.xlsx`. The JSON is deterministic for a given file.
 - **Snapshot:** published 2026-09-18. Check rates: 31 Mar 2025 USD 0.57095; 31 Mar 2026 USD 0.57235.

@@ -135,3 +135,10 @@ the alternative, and what Brendan should confirm. Newest at the bottom.
 - **Decision:** sections follow PLAN §8 with our own column names (marked provisional). "Print / save as PDF" uses a print stylesheet; no PDF library is bundled.
 - **Why:** no Sharesight FIF report export was available to copy headers from; a PDF library would add a large dependency to audit.
 - **Confirm:** please supply a Sharesight FIF report export (PDF/CSV) so the column names can be locked (M5).
+
+## 2026-10-05 – Switched from pnpm to Bun (package manager and script runner)
+- **Decision:** at Brendan's request (5 Oct 2026), Bun replaces pnpm. Bun 1.4.2 is pinned in `package.json` (`packageManager: bun@1.4.2`) and `.bun-version` (read by `oven-sh/setup-bun` in CI). `bun.lock` replaces `pnpm-lock.yaml` and is always installed with `bun install --frozen-lockfile`. Workspaces moved from `pnpm-workspace.yaml` to `package.json` `workspaces`; pnpm's `onlyBuiltDependencies` became `trustedDependencies` (esbuild, sharp, workerd); `.npmrc` `save-exact` became `bunfig.toml` `install.exact`. The `engines` field is gone; Node 22 stays pinned in `.nvmrc`. Our TypeScript scripts now run with `bun scripts/…` instead of `tsx` (dependency removed). The other tools are unchanged: Vitest, ESLint, Vite, Playwright and Wrangler still run on Node 22 under the hood, started with `bun run` / `bunx`.
+- **Why:** Brendan prefers Bun.
+- **Reproducibility check:** `bun.lock` was migrated from the pnpm lockfile, so every package resolves to the same version as in the pnpm lockfile; the only removal is `tsx`. A `SOURCE_DATE_EPOCH` build of `dist/` is byte-identical to the pnpm build, and the Worker bundle hash in `build-manifest.json` is unchanged. Private golden totals are unchanged.
+- **Also:** `bun run headers:local` now stops the whole `wrangler dev` process group on exit. Before, killing only the `npx`/`bunx` wrapper could leave `wrangler dev` holding port 8799.
+- **Alternative:** stay on pnpm 10.

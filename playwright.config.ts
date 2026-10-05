@@ -15,7 +15,7 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
   },
   webServer: {
-    command: `SITE_ORIGIN=http://localhost:${PORT} pnpm build && WRANGLER_SEND_METRICS=false npx wrangler dev --local --port ${PORT} --ip 127.0.0.1 --show-interactive-dev-session=false`,
+    command: `SITE_ORIGIN=http://localhost:${PORT} bun run build && WRANGLER_SEND_METRICS=false bunx wrangler dev --local --port ${PORT} --ip 127.0.0.1 --show-interactive-dev-session=false`,
     url: `http://localhost:${PORT}/`,
     reuseExistingServer: false,
     timeout: 120_000,
